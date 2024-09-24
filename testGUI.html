@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Live Graph</title>
+    </head>
+    <body>
+        <style>
+            .main-view-element {
+                background: #bcb;
+                display: block;
+                width: 100%;
+                height: 100%;
+                padding: 10px;
+                overflow: auto;
+            }
+
+            .param {
+                display: inline-block;
+                margin: 10px;
+                width: 300px;
+            }
+        </style>
+        
+        <div id="controls">
+            <canvas id="liveGraph" width="500" height="300"></canvas>
+        </div>
+        
+        <script type="text/javascript">
+            const canvas = document.getElementById('liveGraph');
+            const ctx = canvas.getContext('2d');
+
+            let data = [];
+            const maxDataPoints = 50;
+
+            function getRandomData() {
+                return Math.random() * 100;
+            }
+
+            function updateData() {
+                if (data.length >= maxDataPoints) {
+                    data.shift();
+                }
+                data.push(getRandomData());
+            }
+
+            function drawGraph() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.beginPath();
+                ctx.moveTo(0, canvas.height - data[0]);
+
+                for (let i = 1; i < data.length; i++) {
+                    ctx.lineTo(i * (canvas.width / maxDataPoints), canvas.height - data[i]);
+                }
+
+                ctx.stroke();
+            }
+
+            function updateGraph() {
+                updateData();
+                drawGraph();
+                requestAnimationFrame(updateGraph);
+            }
+
+            updateGraph();
+
+        </script> 
+    </body>
+</html>
