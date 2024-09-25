@@ -1,0 +1,1 @@
+![CompressorScreenshot](TestCompressorScreenshot.png)
